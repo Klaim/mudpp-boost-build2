@@ -1,0 +1,26 @@
+int_libs = # Interface dependencies.
+imp_libs = # Implementation dependencies.
+#import imp_libs += libhello%lib{hello}
+
+lib{boost}: {hxx ixx txx}{**} $imp_libs $int_libs
+
+# Build options.
+#
+cxx.poptions =+ "-I$out_base" "-I$src_base"
+
+# Export options.
+#
+lib{boost}:
+{
+  cxx.export.poptions = "-I$out_base" "-I$src_base"  "-DBOOST_ASIO_STANDALONE=1"
+  cxx.export.libs = $int_libs
+}
+
+# Install into the libboost/ subdirectory of, say, /usr/include/
+# recreating subdirectories.
+#
+{hxx ixx txx}{*}:
+{
+  install         = include/
+  install.subdirs = true
+}
