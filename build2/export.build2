@@ -1,0 +1,6 @@
+$out_root/
+{
+  include libboost/
+}
+
+export $out_root/libboost/$import.target

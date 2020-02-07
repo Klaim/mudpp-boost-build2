@@ -1,0 +1,11 @@
+: 1
+name: libboost
+version: 1.72.0-a.0.z
+summary: boost headers quickly put togeter - do not use this for real
+license: proprietary
+description-file: README.md
+url: https://example.org/libboost
+email: mjklaim@gmail.com
+depends: * build2 >= 0.12.0
+depends: * bpkg >= 0.12.0
+#depends: libhello ^1.0.0
