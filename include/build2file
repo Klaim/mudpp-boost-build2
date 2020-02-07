@@ -2,19 +2,34 @@ int_libs = # Interface dependencies.
 imp_libs = # Implementation dependencies.
 #import imp_libs += libhello%lib{hello}
 
-lib{boost}: {hxx ixx txx}{**} $imp_libs $int_libs
+switch $cxx.target.class
+{
+    case 'windows'
+        include_dir = windows
+    default
+        include_dir = posix
+
+}
+
+if($cxx.target.class != 'windows')
+{
+    $int_libs += -lpthread
+}
+
+lib{boost}: $include_dir/{hxx ixx txx}{**} $imp_libs $int_libs
 
 # Build options.
 #
-cxx.poptions =+ "-I$out_base" "-I$src_base"
+cxx.poptions =+ "-I$out_base" "-I$src_base/$include_dir"
 
 # Export options.
 #
 lib{boost}:
 {
-  cxx.export.poptions = "-I$out_base" "-I$src_base"  "-DBOOST_ASIO_STANDALONE=1"
+  cxx.export.poptions = "-I$out_base" "-I$src_base/$include_dir"  "-DBOOST_ASIO_STANDALONE=1"
   cxx.export.libs = $int_libs
 }
+
 
 # Install into the libboost/ subdirectory of, say, /usr/include/
 # recreating subdirectories.
